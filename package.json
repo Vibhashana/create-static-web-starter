@@ -1,7 +1,8 @@
 {
   "name": "static-web-starter",
   "version": "1.0.0",
-  "description": "A boilerplate template for a static site",
+  "description": "A starter template for a bulding static websites. This sets up the project with Sass, JavaScipt minification and image optimization",
+  "bin": "/bin/cli.js",
   "main": "index.js",
   "scripts": {
     "start": "gulp",
