@@ -10,6 +10,17 @@
   },
   "author": "Sahan Vibhashana Bandara",
   "license": "MIT",
+  "keywords": [
+    "starter template",
+    "static web template",
+    "web boilerplate",
+    "boilerplate",
+    "create static website template"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vibhashana/static-web-starter"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.13",
     "@babel/preset-env": "^7.18.10",
