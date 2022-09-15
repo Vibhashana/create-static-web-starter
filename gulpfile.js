@@ -30,7 +30,7 @@ const paths = {
 };
 
 // Building CSS
-function buidCSS() {
+function buildCSS() {
   return src("app/src/scss/main.scss", { sourcemaps: true })
     .pipe(sass())
     .pipe(postcss([autoprefixer(["last 3 versions"]), cssnano()]))
@@ -38,7 +38,7 @@ function buidCSS() {
 }
 
 // Building JavaScript
-function buidScripts() {
+function buildScripts() {
   return src(paths.js.src, { sourcemaps: true })
     .pipe(babel({ presets: ["@babel/preset-env"] }))
     .pipe(terser())
@@ -46,12 +46,19 @@ function buidScripts() {
 }
 
 // Building HTML
-function buidHtml() {
+function buildHtml() {
   return src(paths.html.src).pipe(dest(paths.html.dest));
 }
 
+// Copying favicon
+function copyFavicon() {
+  return src("app/src/favicon.ico", { allowEmpty: true }).pipe(
+    dest("app/dist/")
+  );
+}
+
 // Minimizing images
-function buidImages() {
+function buildImages() {
   return src(paths.img.src)
     .pipe(
       imagemin([
@@ -94,20 +101,34 @@ function browserSyncReload(cb) {
 // Watch Task
 function watchTask() {
   watch(
-    [paths.css.src, paths.js.src, paths.html.src, paths.img.src],
-    series(buidCSS, buidScripts, buidHtml, buidImages, browserSyncReload)
+    [paths.css.src, paths.js.src, paths.html.src, paths.img.src, "app/src/"],
+    series(
+      buildCSS,
+      buildScripts,
+      buildHtml,
+      buildImages,
+      copyFavicon,
+      browserSyncReload
+    )
   );
 }
 
 // Default Gulp Task
 exports.default = series(
-  buidCSS,
-  buidScripts,
-  buidHtml,
-  buidImages,
+  buildCSS,
+  buildScripts,
+  buildHtml,
+  buildImages,
+  copyFavicon,
   browserSyncServe,
   watchTask
 );
 
 // Build Gulp Task
-exports.build = series(buidCSS, buidScripts, buidHtml, buidImages);
+exports.build = series(
+  buildCSS,
+  buildScripts,
+  buildHtml,
+  buildImages,
+  copyFavicon
+);
